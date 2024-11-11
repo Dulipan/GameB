@@ -136,8 +136,6 @@ void LogMessageA(LOGLEVEL LogLevel, char* Message, ...)
 
     HANDLE LogFileHandle = INVALID_HANDLE_VALUE;
 
-    DWORD EndOfFile = 0;
-
     DWORD NumberOfBytesWritten = 0;
 
     char DateTimeString[96] = { 0 };
@@ -214,7 +212,9 @@ void LogMessageA(LOGLEVEL LogLevel, char* Message, ...)
         ASSERT(FALSE, "Failed to access log file!");        
     }
 
-    EndOfFile = SetFilePointer(LogFileHandle, 0, NULL, FILE_END);
+    /* Redundant assignment to EndOfFile variable as you only assign the value but
+     never use it. Just use dyrecly the function to se the pointer to end of file.*/
+    SetFilePointer(LogFileHandle, 0, NULL, FILE_END);
 
     WriteFile(LogFileHandle, DateTimeString, (DWORD)strlen(DateTimeString), &NumberOfBytesWritten, NULL);
 
